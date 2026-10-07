@@ -1,10 +1,10 @@
 ---
-name: inbox-summary
-description: Summarize the state of the user's Gmail. Shows unread counts by label, what's sitting in each primary inbox, which threads come from important contacts, and how many look ready to file. Use this whenever the user asks "what's in my inbox", "how's my email looking", "summarize my inbox", "anything new?", "how many unread do I have", or starts an email session and wants an overview, even if they don't say "summary".
+name: status
+description: Summarize the state of the user's Gmail. Shows unread counts by label, what's sitting in each primary inbox, which threads come from important contacts, and how many look ready to file. Use this whenever the user asks "what's in my inbox", "status", "inbox status", "how's my email looking", "summarize my inbox", "anything new?", "how many unread do I have", or starts an email session and wants an overview, even if they don't say "status".
 argument-hint: "[optional focus, e.g. 'work only']"
 ---
 
-# Inbox summary
+# Status
 
 Give the user a quick, accurate picture of their mailbox so they can decide what to do next. This is read-only. Change nothing.
 

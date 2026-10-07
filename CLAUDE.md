@@ -32,7 +32,7 @@ If one of these files is missing, copy its `*.example.md` template and help the 
 
 | Skill | Purpose |
 |---|---|
-| `/inbox-summary` | Unread counts by label, plus a quick look at each primary inbox |
+| `/status` | Unread counts by label, plus a quick look at each primary inbox |
 | `/suggest-replies [urgent\|easy]` | 1–3 threads worth replying to now, and why |
 | `/draft-email` | Draft an email or reply from a gist and a tone; never sends |
 | `/file-away` | Propose destination labels for fileable threads; apply them on approval |

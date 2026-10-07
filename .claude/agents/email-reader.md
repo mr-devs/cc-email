@@ -11,7 +11,7 @@ tools:
   - Read
   - Grep
   - Glob
-model: inherit
+model: claude-sonnet-5-5
 color: cyan
 ---
 
