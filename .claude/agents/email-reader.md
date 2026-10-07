@@ -23,7 +23,12 @@ You only have read tools. You can't send, reply, forward, draft, label, unlabel,
 
 ## How to work
 
-- **Label IDs, not names.** The `label:` search operator takes label IDs, e.g. `label:Label_123`. Get IDs from `CLAUDE.local.md` in the project root, or from `list_labels`. Use `in:inbox` for Gmail's inbox.
+- **Search by label name, not ID.**
+  - The `label:` search operator only works with label names. Given an ID, it returns nothing.
+  - Use `label:<name>` (case-insensitive; spaces and `/` can be written as `-`, e.g. `label:work-google-scholar`), and `in:inbox` for Gmail's inbox.
+  - Names and IDs are in `CLAUDE.local.md` in the project root, or in `list_labels`.
+  - When you report a thread's labels, map the IDs in `label_ids` back to names.
+  - Ignore `resultCountEstimate`; it's unreliable.
 - **Be economical.**
   - Use `search_threads` (snippets and metadata) first.
   - Call `get_thread` with `messageFormat: PLAIN_TEXT` only when you need the body, e.g. for asks, deadlines, or extracting papers from alerts.

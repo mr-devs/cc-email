@@ -20,7 +20,7 @@ Give the user a quick, accurate picture of their mailbox so they can decide what
    - read or unread
    - who sent the last message (the user or someone else)
    - a one-line gist
-   Use `search_threads` with `in:inbox` for INBOX and `label:<ID>` for other labels, `pageSize` 50, paginating if needed.
+   Use `search_threads` with `in:inbox` for INBOX and `label:<name>` for other labels (search by name, not ID; see CLAUDE.md rule 4), with `pageSize` 50, paginating if needed.
 3. **Priority.** Match senders against `contacts.md`. A specific address beats a `@domain` match. Mark Tier 1 senders with ★ and Tier 2 senders with ☆.
 4. **Fileable estimate.** Count threads that are read and addressed (the user sent the last message, or it's clearly FYI or automated). Don't propose labels here; that's `/file-away`'s job.
 

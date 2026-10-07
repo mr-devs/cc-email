@@ -20,6 +20,7 @@ Run `list_labels` to get label IDs, or ask Claude to "fill in my labels from Gma
 ## Label tree
 
 Format: `Name` (`label ID`): one-line definition. Mark primary inboxes as **not a filing destination**.
+The name is used for searching (`label:<name>`) and the ID for adding or removing labels.
 
 - `Personal` (`Label_...`): <definition>
 - `Work` (`Label_...`): **Primary inbox, not a filing destination.** <definition>

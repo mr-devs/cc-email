@@ -6,7 +6,7 @@ argument-hint: "[optional: inbox name, thread, or 'move <thread> to <label>']"
 
 # File away
 
-Get the primary inboxes closer to empty by filing threads that are done, without ever filing something the user still needs to see. Gmail has labels, not folders. **Filing** a thread means adding its destination label and removing its primary-inbox label(s) (`INBOX` and/or the work label). Label IDs and definitions are in `CLAUDE.local.md`.
+Get the primary inboxes closer to empty by filing threads that are done, without ever filing something the user still needs to see. Gmail has labels, not folders. **Filing** a thread means adding its destination label and removing its primary-inbox label(s) (`INBOX` and/or the work label). Label names, IDs and definitions are in `CLAUDE.local.md`. Search by name; label and unlabel by ID (CLAUDE.md rule 4).
 
 ## Two entry points
 

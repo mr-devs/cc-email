@@ -11,7 +11,7 @@ Google Scholar alerts pile up by the hundreds. Separate the signal from the nois
 ## Setup
 
 - Read `research-interests.md` in full, especially **Core topics**, **Signals** and both **Learned** sections. The Learned entries matter most because they record the user's actual judgments. If the file is missing, copy `research-interests.example.md` and ask the user for a short research bio first.
-- Find the Scholar label ID in `CLAUDE.local.md`. If there isn't one, search `from:scholaralerts-noreply@google.com`.
+- Find the Scholar label's name in `CLAUDE.local.md`. If there isn't one, search `from:scholaralerts-noreply@google.com`.
 
 ## Batch
 
@@ -21,7 +21,7 @@ Work out the batch from `$ARGUMENTS`:
 - a window such as `last 7d`: add `newer_than:7d`
 - an explicit `after:YYYY/MM/DD`
 
-The base query is `label:<ScholarID> is:unread`. Record the exact thread IDs in the batch; they're needed for marking read at the end.
+The base query is `label:<scholar-label-name> is:unread`. Search by name, since the operator ignores IDs (see CLAUDE.md rule 4). Record the exact thread IDs in the batch; they're needed for marking read at the end.
 
 ## Steps
 
