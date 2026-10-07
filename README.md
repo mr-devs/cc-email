@@ -51,7 +51,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 
 | Command | What it does |
 |---|---|
-| `/status` | Unread counts by label, what's in each primary inbox, flags for priority senders, and how many threads look fileable |
+| `/summary` | Unread counts by label, what's in each primary inbox, flags for priority senders, and how many threads look fileable |
 | `/suggest-replies [urgent\|easy]` | Picks 1–3 threads to handle now and explains each choice. `urgent` favors deadlines and VIPs; `easy` favors quick wins. |
 | `/draft-email` | Drafts a new email or reply from a gist, a tone (casual/professional/formal) and a length. Saves it as a Gmail draft and never sends without your yes. |
 | `/file-away` | Proposes a destination label and a rationale for each fileable thread, then applies only what you approve |
