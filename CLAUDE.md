@@ -38,7 +38,7 @@ If one of these files is missing, copy its `*.example.md` template and help the 
 
 | Skill | Purpose |
 |---|---|
-| `/summary` | Unread counts by label, plus a quick look at each primary inbox |
+| `/summary` | Write `inbox-summary.md`: counts by label and a checklist of each primary inbox, with a bullet under each item for the user's directions |
 | `/suggest-replies [urgent\|easy]` | 1–3 threads worth replying to now, and why |
 | `/draft-email` | Draft an email or reply from a gist and a tone, as a Gmail draft plus an editable file in `drafts/`; never sends |
 | `/file-away` | Propose destination labels for fileable threads; apply them on approval |

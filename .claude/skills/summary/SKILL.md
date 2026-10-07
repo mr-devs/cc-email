@@ -1,12 +1,14 @@
 ---
 name: summary
-description: Summarize the state of the user's Gmail. Shows read and unread counts for every label (from label metadata, without opening email), what's sitting in each primary inbox, which threads come from important contacts, and how many look ready to file. Use this whenever the user asks "what's in my inbox", "inbox status", "how's my email looking", "summarize my inbox", "anything new?", "how many unread do I have", or starts an email session and wants an overview, even if they don't say "summary".
+description: Summarize the state of the user's Gmail. Shows read and unread counts for every label (from label metadata, without opening email), what's sitting in each primary inbox, which threads come from important contacts, and how many look ready to file. Use this whenever the user asks "what's in my inbox", "inbox status", "how's my email looking", "summarize my inbox", "anything new?", "how many unread do I have", or starts an email session and wants an overview, even if they don't say "summary". Writes the summary to inbox-summary.md, a living checklist the user annotates with directions; also use this when the user says they've updated or responded in inbox-summary.md.
 argument-hint: "[optional focus, e.g. 'work only']"
 ---
 
 # Summary
 
-Give the user a quick, accurate picture of their mailbox so they can decide what to do next. This is read-only. Change nothing.
+Give the user a quick, accurate picture of their mailbox so they can decide what to do next.
+
+The summary lives in **`inbox-summary.md`** in the repo root (gitignored). It's a single living checklist: each run updates it, the user writes directions under items in their own editor, and Claude carries them out. Building or refreshing the summary changes nothing in the mailbox.
 
 **Never open an email in this skill.** Use only label counts and search results (sender, subject, date, labels, and Gmail's short preview). Don't call `get_thread` or `get_message`, and don't ask the reader to. A summary is an overview, and opening emails is slow and pulls message bodies into the conversation.
 
@@ -38,46 +40,64 @@ Give the user a quick, accurate picture of their mailbox so they can decide what
 
 If `$ARGUMENTS` names a focus (e.g. "work only"), limit steps 2–4 to it.
 
-## Output format
+## The file: `inbox-summary.md`
 
-```
+```markdown
+# Inbox summary
+
+Updated 2026-10-07 16:50. Write directions in the empty bullet under any item, then tell Claude. Items without directions are left alone.
+
 ## Counts by label
+
 | Label | Unread | Read | Total |
 |---|---|---|---|
-| Inbox | 12 | 28 | 40 |      ← primary inboxes first
+| Inbox | 12 | 28 | 40 |
 | Work | 3 | 15 | 18 |
 | Google Scholar | 250 | 650 | 900 |
-...                              ← then other labels by unread count, descending
-(N other labels: all read)       ← collapse fully read labels into one line
+
+(N other labels: all read)
 
 ## Inbox (N threads, M unread)
-1. ★ **Sender**: Subject (date) — one-line gist [unread]
-2. **Sender**: Subject (date) — one-line gist
-...
+
+1. ★ **Sender**: Subject (10/07) — one-line gist [unread] <!-- thread:18f3a2b4c5d6e701 -->
+    - 
+2. **Sender**: Subject (10/06) — one-line gist <!-- thread:18f3a2b4c5d6e702 -->
+    - file to Work-Admin
+    - ✓ filed to Work-Admin (10/07)
 
 ## Work (N threads, M unread)
-1. **Sender**: Subject (date) — one-line gist
-...
 
-**K threads look fileable.** Run `/file-away` to review them.
+1. **Sender**: Subject (10/05) — one-line gist <!-- thread:18f3a2b4c5d6e703 -->
+    - 
+
+**K threads look fileable.**
 ```
 
-Keep each gist to one line. If an inbox has more than ~20 threads, show the top 15 (priority senders and unread first) and say how many are hidden. End with at most one suggestion for the next step, e.g. `/suggest-replies urgent` if there are Tier 1 threads waiting.
+- **Counts table:** primary inboxes first, then other labels by unread count, descending. Collapse fully read labels into one line.
+- **Inbox sections:** one per primary inbox, each a numbered list starting at 1. List **every** thread (it's a file, so there's no need to hide any), priority senders and unread first, then newest first. Keep each gist to one line.
+- **Response bullet:** every item gets an indented (4 spaces) bullet underneath, empty until the user writes in it. An empty bullet may appear as `    - ` or `    -` (editors strip trailing spaces); both mean "no directions".
+- **Thread ID:** each item ends with `<!-- thread:<id> -->`. It's invisible in a Markdown preview and is how items are matched to threads. Never show or ask the user to type it.
+- **Done marker:** once Claude has carried out an item's directions, it adds a second bullet below the user's, `    - ✓ <what was done> (<M/D>)`. The user's bullet is never edited.
 
-**Number every thread.** Each primary-inbox section is a numbered list that starts at 1, so the user can refer to a thread as "Inbox 3" or "Work 3". Hidden threads get no number; if the user asks to see them, show them as a continuation of the same list (16, 17, …) without renumbering. Keep each number's thread ID from the reader results, so a number can be mapped back to its thread later.
+## Writing and refreshing the file
 
-## Acting on numbered directions
+Each `/summary` run regenerates the counts, the `Updated` line, and the inbox lists from fresh data. If `inbox-summary.md` already exists, read it first and merge, matching items by thread ID:
 
-The user may reply with directions keyed to those numbers, grouped by inbox:
+- **Completed items are dropped** (any item with a `✓` bullet). If that thread is still in a primary inbox, it comes back as a fresh item with an empty response bullet.
+- **Items with directions not yet carried out** keep the user's bullet text exactly as written, even if the thread details changed. If such a thread is no longer in any primary inbox (e.g. filed in Gmail directly), keep it at the end of its section with the gist `— no longer in this inbox` so the directions aren't silently lost, and mention it in chat.
+- **Everything else** is rebuilt from fresh data; threads no longer in a primary inbox disappear.
+- Renumber every section from 1 on each run. Numbers are labels for the current file, not stable IDs.
 
-```
-Inbox:
-1. file to Work-Admin
-3. draft a reply saying I'll be there
-7. mark as read
-```
+In chat, don't repeat the lists. Reply with the file path, the unread counts for the primary inboxes, anything urgent from a Tier 1 sender, the fileable count, and at most one next-step suggestion (e.g. `/suggest-replies urgent`).
 
-- Act **only** on the numbers listed. Anything not listed (here Inbox 2, 4–6 and everything in Work) is left untouched: no labels, no read-state changes, no drafts.
-- Numbers refer to the most recent summary list in the conversation. If a direction is ambiguous, or a number doesn't exist, ask about that item instead of guessing.
-- Drafts can be created right away (CLAUDE.md rule 2), using `/draft-email`'s approach.
-- Every mailbox change still needs approval (CLAUDE.md rule 1). Before applying, show one compact table of what each direction resolves to (number, sender and subject, exact change with label IDs), then wait for a yes and apply exactly that.
+## Acting on the user's directions
+
+When the user says they've written in the file ("I updated inbox-summary.md", "done, take a look"):
+
+1. **Read the file.** Collect every item whose response bullet has text and that has no `✓` bullet yet. Ignore every other item: no labels, no read-state changes, no drafts.
+2. **Resolve each direction** to concrete actions on that item's thread ID. If a direction is ambiguous, ask about that item in chat instead of guessing. If a direction asks for no action now ("leave it", "review later"), do nothing and leave the item as is, so the note carries over to the next run.
+3. **Drafts** can be created right away (CLAUDE.md rule 2), following `/draft-email`.
+4. **Mailbox changes need approval** (CLAUDE.md rule 1). Before applying, check each thread still carries the expected inbox label ID, then show one compact table in chat (section and number, sender and subject, exact change with label IDs) and wait for a yes. Apply exactly that.
+5. **Mark each completed item** with a `✓` bullet saying what was done and the date (e.g. `✓ filed to Work-Admin, marked read (10/07)` or `✓ draft saved: drafts/<file>.md (10/07)`). If something failed, add `✗ <what failed>` instead and report it in chat. Touch nothing else in the file.
+
+The user may also give directions in chat by section and number ("Inbox 3: file to Personal"). Treat those the same way, using the numbers in the current file.

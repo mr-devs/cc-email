@@ -33,6 +33,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 | `contacts.md` | ❌ gitignored | Your tiered list of important senders |
 | `research-interests.md` | ❌ gitignored | Your research profile, plus what `/scholar-digest` learns from your feedback |
 | `.claude/skills/draft-email/references/signatures.md` | ❌ gitignored | Your email signatures and which one `/draft-email` uses for new emails vs. replies |
+| `inbox-summary.md` | ❌ gitignored | The living inbox checklist written by `/summary` |
 | `drafts/` | ❌ gitignored (except its README) | Temporary, editable copies of email drafts in progress; each file is deleted once its email is sent |
 | `*.example.md` | ✅ | Blank templates for the private files |
 
@@ -54,7 +55,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 
 | Command | What it does |
 |---|---|
-| `/summary` | Unread counts by label, what's in each primary inbox, flags for priority senders, and how many threads look fileable |
+| `/summary` | Writes `inbox-summary.md` (gitignored): counts by label, plus every thread in each primary inbox with an empty bullet underneath. Write directions under any item ("file to Work-Admin", "draft a reply saying…"), tell Claude, and it carries them out (asking before any mailbox change) and ticks them off. Re-running `/summary` refreshes the file and drops finished items. |
 | `/suggest-replies [urgent\|easy]` | Picks 1–3 threads to handle now and explains each choice. `urgent` favors deadlines and VIPs; `easy` favors quick wins. |
 | `/draft-email` | Drafts a new email or reply from a gist, a tone (casual/professional/formal) and a length. Saves it as a Gmail draft and as a Markdown file in `drafts/` that you can edit; tell Claude when you've edited it and it syncs the changes to Gmail. Never sends without your yes. |
 | `/file-away` | Proposes a destination label and a rationale for each fileable thread, then applies only what you approve |
