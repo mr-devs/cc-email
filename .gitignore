@@ -1,0 +1,12 @@
+# Personal files: each has a committed *.example.md template
+CLAUDE.local.md
+contacts.md
+research-interests.md
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Skill-creator workspaces
+*-workspace/
+
+.DS_Store
