@@ -2,6 +2,11 @@
 CLAUDE.local.md
 contacts.md
 research-interests.md
+.claude/skills/draft-email/references/signatures.md
+
+# Local email drafts (only the folder's README is committed)
+drafts/*
+!drafts/README.md
 
 # Local Claude Code settings
 .claude/settings.local.json

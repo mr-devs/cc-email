@@ -16,6 +16,7 @@ git clone <your copy of this repo> cc-email && cd cc-email
 cp CLAUDE.local.example.md CLAUDE.local.md
 cp contacts.example.md contacts.md
 cp research-interests.example.md research-interests.md   # only if you use Google Scholar alerts
+cp .claude/skills/draft-email/references/signatures.example.md .claude/skills/draft-email/references/signatures.md   # then paste in your own signatures
 claude
 ```
 
@@ -31,6 +32,8 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 | `CLAUDE.local.md` | ❌ gitignored | Your addresses, primary inboxes, label tree (IDs and definitions), open items. Claude Code loads it automatically. |
 | `contacts.md` | ❌ gitignored | Your tiered list of important senders |
 | `research-interests.md` | ❌ gitignored | Your research profile, plus what `/scholar-digest` learns from your feedback |
+| `.claude/skills/draft-email/references/signatures.md` | ❌ gitignored | Your email signatures and which one `/draft-email` uses for new emails vs. replies |
+| `drafts/` | ❌ gitignored (except its README) | Temporary, editable copies of email drafts in progress; each file is deleted once its email is sent |
 | `*.example.md` | ✅ | Blank templates for the private files |
 
 ### Concepts
@@ -53,7 +56,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 |---|---|
 | `/summary` | Unread counts by label, what's in each primary inbox, flags for priority senders, and how many threads look fileable |
 | `/suggest-replies [urgent\|easy]` | Picks 1–3 threads to handle now and explains each choice. `urgent` favors deadlines and VIPs; `easy` favors quick wins. |
-| `/draft-email` | Drafts a new email or reply from a gist, a tone (casual/professional/formal) and a length. Saves it as a Gmail draft and never sends without your yes. |
+| `/draft-email` | Drafts a new email or reply from a gist, a tone (casual/professional/formal) and a length. Saves it as a Gmail draft and as a Markdown file in `drafts/` that you can edit; tell Claude when you've edited it and it syncs the changes to Gmail. Never sends without your yes. |
 | `/file-away` | Proposes a destination label and a rationale for each fileable thread, then applies only what you approve |
 | `/scholar-digest [N]` | Reads the newest N (default 25) unread Google Scholar alerts and surfaces relevant papers (title, authors, blurb, link). Asks for your feedback and records it in `research-interests.md`, then offers to mark the batch read. |
 | `/contacts [add\|remove\|list\|suggest]` | Maintains three priority tiers (1 VIP, 2 Important, 3 Known) that the other skills use for ranking |
