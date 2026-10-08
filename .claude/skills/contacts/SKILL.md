@@ -14,7 +14,7 @@ argument-hint: "add <email|@domain> <tier> [name] [note] | remove <email> | list
 | 2 Important | Prioritize | Within a few days | ☆ in summaries; ranked above unknown senders |
 | 3 Known | Routine | Whenever | Recognized, but no boost (useful for domains like `@university.edu`) |
 
-Entries are one per line under their tier heading, in the form `address-or-@domain | name | note`. A specific address takes precedence over a `@domain` entry. If `contacts.md` is missing, create it from `contacts.example.md`, keeping the headings and removing the example entries.
+Each tier heading has a Markdown table with the columns `Address | Name | Note`, one row per entry: `| address-or-@domain | name | note |`. Keep the table's header and `|---|---|---|` separator rows even when the tier is empty, and never write bare pipe-separated lines (they don't render as a table). A specific address takes precedence over a `@domain` entry. If `contacts.md` is missing, create it from `contacts.example.md`, keeping the headings and table headers and removing the example rows.
 
 ## Subcommands
 
