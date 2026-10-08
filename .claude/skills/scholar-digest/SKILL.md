@@ -52,12 +52,20 @@ The base query is `label:<scholar-label-name> is:unread`. Search by name, since 
 ```
 
    Then give one line saying how many were judged Low and the main reasons (e.g. "18 low: mostly ML methods, materials science citing an old paper").
+5. **Writing ideas (rare).** If `projects.md` describes a reminder list for things to write about (e.g. a blog or newsletter), and `remindctl status` shows access (see "Reminders" in `CLAUDE.md`; otherwise skip this step), check the High papers against that list's bar. The bar is meant to be much higher than "relevant": most batches have none, and never more than two. For each paper that clears it, add a line after the list:
+
+   ```
+   Writing idea: "Write about <topic>" on <M/D> in <list> — <one line on why it clears the bar>
+   ```
+
+   The reminder's `Link` is the paper's own URL: for a Scholar redirect, the target in its `url=` parameter. Run `remindctl search "<that URL without https://>"` first and skip papers that already have a reminder (the reminder stores the link, not the paper's title). Don't create anything yet: these are asked about in the feedback step.
 
 ## Learn from feedback
 
 Feedback is how `research-interests.md` improves, so always ask. Use `AskUserQuestion`:
 
 - **Question 1** (multiSelect): "Which of these are actually interesting to you?" List the presented papers as options, with short titles as labels and the Why line as each description. Up to 4 options per question; split across questions if there are more.
+- **Writing ideas** (only if step 5 suggested any; multiSelect): "Add these as reminders?" One option per idea, with the full reminder line (title, due date, list) as its description, asked as its own question, separate from "which are interesting". Selecting an idea is the explicit yes for that exact reminder (CLAUDE.md rule 7); create nothing that wasn't selected. Create each with the command and notes format in "Reminders" in `CLAUDE.md`, with the paper link as the `Link` line and the alert thread as the `Email` line, and report what was added. Every reminder needs a due date.
 - **Question 2:** ask why for one or two contested items, e.g. a High-scored paper the user didn't select ("not my area", "too technical", "already read", "wrong domain"), or invite a free-text note through Other.
 
 Then edit `research-interests.md`:

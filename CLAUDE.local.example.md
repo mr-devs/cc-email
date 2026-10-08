@@ -30,6 +30,10 @@ The name is used for searching (`label:<name>`) and the ID for adding or removin
 
 Sidebar entries that aren't user labels (Gmail categories, Starred, Snoozed, and so on). Don't use these as filing destinations.
 
+## Reminders
+
+Reminder lists (one per project, plus topic lists and a default) go in `projects.md`; copy `projects.example.md` to start it.
+
 ## Notes and quirks
 
 - <e.g. "My Gmail filter also labels my own sent mail to my work address, so the Work inbox can contain my sent messages.">

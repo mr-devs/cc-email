@@ -31,6 +31,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 | `CLAUDE.md` | ✅ | Workflow rules and vocabulary, shared by everyone |
 | `CLAUDE.local.md` | ❌ gitignored | Your addresses, primary inboxes, label tree (IDs and definitions), open items. Claude Code loads it automatically. |
 | `contacts.md` | ❌ gitignored | Your tiered list of important senders |
+| `projects.md` | ❌ gitignored | Your research projects with the Apple Reminders list for each, plus your other reminder lists |
 | `research-interests.md` | ❌ gitignored | Your research profile, plus what `/scholar-digest` learns from your feedback |
 | `.claude/skills/draft-email/references/signatures.md` | ❌ gitignored | Your email signatures and which one `/draft-email` uses for new emails vs. replies |
 | `inbox-summary.md` | ❌ gitignored | The living inbox checklist written by `/summary` |
@@ -55,7 +56,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 
 | Command | What it does |
 |---|---|
-| `/summary` | Writes `inbox-summary.md` (gitignored): counts by label, plus every thread in each primary inbox (with promotions and forums split into their own section), each with Claude's suggested action and an empty bullet underneath. Write "ok" to accept a suggestion or your own directions ("file to Work-Admin", "draft a reply saying…"), tell Claude, and it carries them out (asking before any mailbox change) and ticks them off. Re-running `/summary` refreshes the file and drops finished items. |
+| `/summary` | Writes `inbox-summary.md` (gitignored): a short "Needs you" list, counts by label, then every thread in each primary inbox (with promotions and forums split into their own section). Each thread gets Claude's suggested action as a checkbox, an optional Apple Reminder checkbox (via `remindctl`) for deadlines and follow-ups, and an empty bullet for your own directions. Tick what you agree with or write directions ("file to Work-Admin", "draft a reply saying…"), tell Claude, and it carries them out (asking before any mailbox or reminder change) and moves finished items to a Done section. Re-running `/summary` refreshes the file and clears Done. |
 | `/suggest-replies [urgent\|easy]` | Picks 1–3 threads to handle now and explains each choice. `urgent` favors deadlines and VIPs; `easy` favors quick wins. |
 | `/draft-email` | Drafts a new email or reply from a gist, a tone (casual/professional/formal) and a length. Saves it as a Gmail draft and as a Markdown file in `drafts/` that you can edit; tell Claude when you've edited it and it syncs the changes to Gmail. Never sends without your yes. |
 | `/file-away` | Proposes a destination label and a rationale for each fileable thread, then applies only what you approve |

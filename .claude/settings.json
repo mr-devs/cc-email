@@ -13,7 +13,12 @@
       "mcp__claude_ai_Gmail__unlabel_thread",
       "mcp__claude_ai_Gmail__create_label",
       "mcp__claude_ai_Gmail__update_label",
-      "mcp__claude_ai_Gmail__delete_label"
+      "mcp__claude_ai_Gmail__delete_label",
+      "Bash(remindctl status:*)",
+      "Bash(remindctl show:*)",
+      "Bash(remindctl search:*)",
+      "Bash(remindctl info:*)",
+      "Bash(remindctl list)"
     ],
     "ask": [
       "mcp__claude_ai_Gmail__send_message",
