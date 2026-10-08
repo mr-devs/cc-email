@@ -55,7 +55,7 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 
 | Command | What it does |
 |---|---|
-| `/summary` | Writes `inbox-summary.md` (gitignored): counts by label, plus every thread in each primary inbox with an empty bullet underneath. Write directions under any item ("file to Work-Admin", "draft a reply saying…"), tell Claude, and it carries them out (asking before any mailbox change) and ticks them off. Re-running `/summary` refreshes the file and drops finished items. |
+| `/summary` | Writes `inbox-summary.md` (gitignored): counts by label, plus every thread in each primary inbox (with promotions and forums split into their own section), each with Claude's suggested action and an empty bullet underneath. Write "ok" to accept a suggestion or your own directions ("file to Work-Admin", "draft a reply saying…"), tell Claude, and it carries them out (asking before any mailbox change) and ticks them off. Re-running `/summary` refreshes the file and drops finished items. |
 | `/suggest-replies [urgent\|easy]` | Picks 1–3 threads to handle now and explains each choice. `urgent` favors deadlines and VIPs; `easy` favors quick wins. |
 | `/draft-email` | Drafts a new email or reply from a gist, a tone (casual/professional/formal) and a length. Saves it as a Gmail draft and as a Markdown file in `drafts/` that you can edit; tell Claude when you've edited it and it syncs the changes to Gmail. Never sends without your yes. |
 | `/file-away` | Proposes a destination label and a rationale for each fileable thread, then applies only what you approve |
