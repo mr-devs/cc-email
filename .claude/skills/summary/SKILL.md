@@ -26,6 +26,7 @@ The summary lives in **`inbox-summary.md`** in the repo root (gitignored). It's 
    - date
    - read or unread
    - who sent the last message (the user or someone else)
+   - its labels, by name: the union across the messages shown, mapped from IDs with `CLAUDE.local.md`
    - a one-line gist taken from the subject and preview
    If an ask or deadline isn't visible in the preview, the gist should say "details not in preview" rather than the email being opened. The search results may also show only some messages of a long thread; in that case "last sender" is based on the last message shown, and should be flagged as such.
    Use `search_threads` with `in:inbox` for INBOX and `label:<name>` for other labels (search by name, not ID; see CLAUDE.md rule 4), with `pageSize` 50, paginating if needed.
@@ -59,15 +60,15 @@ Updated 2026-10-07 16:50. Write directions in the empty bullet under any item, t
 
 ## Inbox (N threads, M unread)
 
-1. ★ **Sender**: Subject (10/07) — one-line gist [unread] <!-- thread:18f3a2b4c5d6e701 -->
+1. ★ **Sender**: Subject (10/07) — one-line gist [unread] · labels: Inbox <!-- thread:18f3a2b4c5d6e701 -->
     - 
-2. **Sender**: Subject (10/06) — one-line gist <!-- thread:18f3a2b4c5d6e702 -->
+2. **Sender**: Subject (10/06) — one-line gist · labels: Inbox, Personal-Finances <!-- thread:18f3a2b4c5d6e702 -->
     - file to Work-Admin
     - ✓ filed to Work-Admin (10/07)
 
 ## Work (N threads, M unread)
 
-1. **Sender**: Subject (10/05) — one-line gist <!-- thread:18f3a2b4c5d6e703 -->
+1. **Sender**: Subject (10/05) — one-line gist · labels: Work, Work-Projects, Starred <!-- thread:18f3a2b4c5d6e703 -->
     - 
 
 **K threads look fileable.**
@@ -75,6 +76,7 @@ Updated 2026-10-07 16:50. Write directions in the empty bullet under any item, t
 
 - **Counts table:** primary inboxes first, then other labels by unread count, descending. Collapse fully read labels into one line.
 - **Inbox sections:** one per primary inbox, each a numbered list starting at 1. List **every** thread (it's a file, so there's no need to hide any), priority senders and unread first, then newest first. Keep each gist to one line.
+- **Labels:** each item ends with ` · labels: ` and the thread's current labels by name (CLAUDE.md rule 4): its primary inbox(es), any other user labels, and Starred. Leave out Unread (shown as `[unread]`), Important, Sent and Gmail categories. This shows the user what a thread already has and lets Claude plan edits (e.g. a thread already in Work-Projects only needs its inbox label removed). It's a snapshot from the last run, so still check live labels before changing anything.
 - **Response bullet:** every item gets an indented (4 spaces) bullet underneath, empty until the user writes in it. An empty bullet may appear as `    - ` or `    -` (editors strip trailing spaces); both mean "no directions".
 - **Thread ID:** each item ends with `<!-- thread:<id> -->`. It's invisible in a Markdown preview and is how items are matched to threads. Never show or ask the user to type it.
 - **Done marker:** once Claude has carried out an item's directions, it adds a second bullet below the user's, `    - ✓ <what was done> (<M/D>)`. The user's bullet is never edited.
@@ -97,7 +99,7 @@ When the user says they've written in the file ("I updated inbox-summary.md", "d
 1. **Read the file.** Collect every item whose response bullet has text and that has no `✓` bullet yet. Ignore every other item: no labels, no read-state changes, no drafts.
 2. **Resolve each direction** to concrete actions on that item's thread ID. If a direction is ambiguous, ask about that item in chat instead of guessing. If a direction asks for no action now ("leave it", "review later"), do nothing and leave the item as is, so the note carries over to the next run.
 3. **Drafts** can be created right away (CLAUDE.md rule 2), following `/draft-email`.
-4. **Mailbox changes need approval** (CLAUDE.md rule 1). Before applying, check each thread still carries the expected inbox label ID, then show one compact table in chat (section and number, sender and subject, exact change with label IDs) and wait for a yes. Apply exactly that.
+4. **Mailbox changes need approval** (CLAUDE.md rule 1). Before applying, check each thread still carries the expected inbox label ID, then show one compact table in chat (section and number, sender and subject, exact change, with labels named by name, never by ID; see CLAUDE.md rule 4) and wait for a yes. Apply exactly that.
 5. **Mark each completed item** with a `✓` bullet saying what was done and the date (e.g. `✓ filed to Work-Admin, marked read (10/07)` or `✓ draft saved: drafts/<file>.md (10/07)`). If something failed, add `✗ <what failed>` instead and report it in chat. Touch nothing else in the file.
 
 The user may also give directions in chat by section and number ("Inbox 3: file to Personal"). Treat those the same way, using the numbers in the current file.
