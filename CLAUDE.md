@@ -71,7 +71,7 @@ remindctl add --title "<title>" --list "<list>" --due <YYYY-MM-DD> "--notes=<not
 
 | Skill | Purpose |
 |---|---|
-| `/summary` | Write `inbox-summary.md`: a "Needs you" list, counts by label, and a checklist of each primary inbox plus Promotions/Forums, with a suggested action and an optional reminder as checkboxes and a bullet for the user's directions under each item |
+| `/summary` | Write `inbox-summary.md`: a "Needs you" list, counts by label, and one block per thread in each primary inbox plus Promotions/Forums (subject linked to Gmail, From, Summary, Labels), with a suggested action and an optional reminder as checkboxes and a Notes line for the user's directions |
 | `/suggest-replies [urgent\|easy]` | 1–3 threads worth replying to now, and why |
 | `/draft-email` | Draft an email or reply from a gist and a tone, as a Gmail draft plus an editable file in `drafts/`; never sends |
 | `/file-away` | Propose destination labels for fileable threads; apply them on approval |

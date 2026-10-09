@@ -21,7 +21,7 @@ Saving or syncing a draft is safe and needs no approval. **Sending is a separate
 
 Parse these from `$ARGUMENTS` and the conversation. Ask only for what's truly missing:
 
-- **Target** (required): a new recipient address, or an existing thread. The thread can be a thread ID, a "reply to #2" from `/suggest-replies`, a number from the latest `/summary` list, or a description like "the email from Jane about the grant". If it's described, find it with `search_threads`, and if more than one thread matches, confirm which one.
+- **Target** (required): a new recipient address, or an existing thread. The thread can be a thread ID, a "reply to #2" from `/suggest-replies`, an item tag from `inbox-summary.md` (e.g. `W3`), or a description like "the email from Jane about the grant". If it's described, find it with `search_threads`, and if more than one thread matches, confirm which one.
 - **Gist** (required): what the email should say. A few words is enough.
 - **Tone**: `casual` (a friend), `professional` (default for work contacts), or `formal` (first contact, senior people, institutions). If none is given, infer it from the thread and the relationship, and say which tone you chose.
 - **Length**: `short` (default; 2–5 sentences) or `medium`.
