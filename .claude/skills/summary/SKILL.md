@@ -78,6 +78,8 @@ If `$ARGUMENTS` names a focus (e.g. "work only"), limit steps 2–6 to it.
 
 ## The file: `inbox-summary.md`
 
+The CC Email Mac app (`app/`) parses this file, so keep the line shapes below stable: `#### <tag> · [<subject>](<link>)`, the bold `**From:**`/`**Summary:**`/`**Labels:**` fields, `- [ ] **Suggestion:**`, `- [ ] **Reminder:**`, `- **Notes:**`, the `✗` line and the Done lines.
+
 The file always shows exactly what is in the primary inboxes (and Promotions/Forums) as of its `Updated` line: every thread this run's searches returned, and nothing else. Each email is one self-contained block, and every piece of it has a label, so the user can see at a glance what's the subject, the summary, the labels, Claude's suggestion and any reminder. The user reads it in a Markdown preview and edits the source; VS Code's preview is read-only, so ticks are typed (`[ ]` → `[x]`), not clicked.
 
 ```markdown
@@ -105,7 +107,7 @@ N other labels: all read.
 
 ### Unread
 
-#### I1 · [Subject](https://mail.google.com/mail/u/<Gmail address>/#all/18f3a2b4c5d6e701)
+#### I1 · [Subject](https://mail.google.com/mail/?authuser=<Gmail address>#all/18f3a2b4c5d6e701)
 
 **From:** ★ Sender · 10/7\
 **Summary:** One-line gist; details not in preview.\
@@ -116,7 +118,7 @@ N other labels: all read.
 
 ### Read
 
-#### I2 · [Your statement is ready](https://mail.google.com/mail/u/<Gmail address>/#all/18f3a2b4c5d6e702)
+#### I2 · [Your statement is ready](https://mail.google.com/mail/?authuser=<Gmail address>#all/18f3a2b4c5d6e702)
 
 **From:** Bank · 10/6\
 **Summary:** Monthly statement is ready.\
@@ -129,7 +131,7 @@ N other labels: all read.
 
 ### Read
 
-#### W1 · [Subject](https://mail.google.com/mail/u/<Gmail address>/#all/18f3a2b4c5d6e703)
+#### W1 · [Subject](https://mail.google.com/mail/?authuser=<Gmail address>#all/18f3a2b4c5d6e703)
 
 **From:** Sender +3 · 10/5\
 **Summary:** One-line gist. *(partial thread)*\
@@ -138,7 +140,7 @@ N other labels: all read.
 - [x] **Suggestion:** Remove Work (already in Work-Projects) — you replied last and nothing is pending.
 - **Notes:** 
 
-#### W2 · [Review assignment](https://mail.google.com/mail/u/<Gmail address>/#all/18f3a2b4c5d6e705)
+#### W2 · [Review assignment](https://mail.google.com/mail/?authuser=<Gmail address>#all/18f3a2b4c5d6e705)
 
 **From:** Editor · 10/4\
 **Summary:** You accepted; review due 10/15.\
@@ -152,7 +154,7 @@ N other labels: all read.
 
 ### Unread
 
-#### P1 · [Subject](https://mail.google.com/mail/u/<Gmail address>/#all/18f3a2b4c5d6e704)
+#### P1 · [Subject](https://mail.google.com/mail/?authuser=<Gmail address>#all/18f3a2b4c5d6e704)
 
 **From:** Sender · 10/7\
 **Summary:** One-line gist.\
@@ -163,7 +165,7 @@ N other labels: all read.
 
 ## Done
 
-- ✓ **I3** · Sender · [Subject](https://mail.google.com/mail/u/<Gmail address>/#all/18f3a2b4c5d6e706) — filed to Work-Admin, marked read (10/7)
+- ✓ **I3** · Sender · [Subject](https://mail.google.com/mail/?authuser=<Gmail address>#all/18f3a2b4c5d6e706) — filed to Work-Admin, marked read (10/7)
 ```
 
 - **Updated line:** day, date and time, then the one-sentence how-to shown above.
@@ -172,7 +174,7 @@ N other labels: all read.
 - **Sections:** one `##` section per primary inbox, in the order of `CLAUDE.local.md`, then Promotions/Forums last, each headed with its thread and unread counts. List **every** thread in it. Omit the Promotions/Forums section if it's empty.
 - **Unread and Read groups:** `### Unread` then `### Read` within each section; omit an empty group. Within each group, priority senders first, then newest first.
 - **Tags:** every item has a short tag: the section's letter plus a number, `I` for Inbox, `W` for Work, `P` for Promotions/Forums (for other primary inboxes, the first letter of the label, or two letters if that's taken). Number once per section, continuing across both groups (Unread I1–I3, Read I4–I9). The user refers to items by tag ("W3: file to Personal").
-- **Item heading:** `#### <tag> · [<subject>](<Gmail link>)`. The link is `https://mail.google.com/mail/u/<Gmail address from CLAUDE.local.md>/#all/<thread id>`; it opens the thread, and it's how items are matched to threads. Escape `[` and `]` in subjects. Headings also put every email in VS Code's Outline view.
+- **Item heading:** `#### <tag> · [<subject>](<Gmail link>)`. The link is `https://mail.google.com/mail/?authuser=<Gmail address from CLAUDE.local.md>#all/<thread id>` (the address as `authuser`, never in the path, which Gmail answers with a 404); it opens the thread, and it's how items are matched to threads. Escape `[` and `]` in subjects. Headings also put every email in VS Code's Outline view.
 - **Fields:** three lines below the heading, each a bold label, joined by a trailing `\` (a Markdown line break) except on the last:
   - `**From:** [★ |☆ ]<sender>[ +N] · M/D`. ★ for Tier 1, ☆ for Tier 2 (step 3). `+N` counts the thread's other visible participants besides the sender and the user; leave it out when there are none. The user's own messages show as `You`.
   - `**Summary:** <gist>`: one short sentence (aim for under ~100 characters), from the subject and preview only. Append `*(partial thread)*` when "last sender" comes from only some of the thread's messages.

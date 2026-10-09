@@ -48,8 +48,8 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 
 1. **`email-reader` agent** (`.claude/agents/email-reader.md`). Its `tools:` allowlist contains only read tools (`search_threads`, `get_thread`, `get_message`, `list_labels`, `list_drafts`, `get_draft`) plus local file reads, so it can't change anything. Skills hand bulk reading to it.
 2. **Permission rules** (`.claude/settings.json`):
-   - Read tools and draft creation are allowed without prompts.
-   - Sending, replying, forwarding, labeling, unlabeling, trashing, spam, and label creation or deletion are all set to `ask`, so Claude Code prompts you before each one.
+   - Read tools, draft creation, thread labeling and unlabeling, and label creation, renaming and deletion are allowed without prompts. The approval rule below still applies to them: Claude proposes the change and waits for your yes.
+   - Sending, replying, forwarding, deleting drafts, message-level label changes, trashing and spam are set to `ask`, so Claude Code also prompts you before each one.
 3. **Approval rule** (`CLAUDE.md`): Claude proposes every mailbox change and waits for an explicit yes. Drafts are the only exception, since nothing leaves your account.
 
 ### Skills
@@ -64,6 +64,34 @@ Then ask Claude to *"fill in CLAUDE.local.md from my Gmail labels"*. It will cal
 | `/contacts [add\|remove\|list\|suggest]` | Maintains three priority tiers (1 VIP, 2 Important, 3 Known) that the other skills use for ranking |
 
 You can also just talk normally ("what's urgent?", "file the Zoom receipt away", "anything good in my Scholar alerts?"), and Claude picks the right skill.
+
+## Mac app (optional)
+
+`app/` contains **CC Email**, a small native macOS app on top of this workspace. It has three views:
+
+- **Summary** shows `inbox-summary.md` as a checklist. You tick suggestions and reminders and write notes there, then click **Apply Notes**.
+- **Drafts** lets you browse and edit the files in `drafts/`, then sync them to Gmail.
+- **Chat** runs the skills, shows Claude's approval tables, and has a **Yes** button. Its footer has a model picker (default Opus 5.5 with the 1M context) and a status-line-style readout of context, session and weekly usage. Claude Code reports these itself with `get_usage` and `get_context_usage`, which make no model call; the app never reads your credentials.
+
+The app never talks to Gmail itself. Everything goes through `claude -p` run in this folder, so the skills, `CLAUDE.md` and the permission rules apply exactly as they do in the terminal. A permission prompt (for example `remindctl add` or a send) opens as a dialog that shows exactly what will run. AskUserQuestion opens as a native question sheet.
+
+**It only uses your Claude Code login.** It removes `ANTHROPIC_API_KEY` and other provider settings from `claude`'s environment, runs `claude auth status` before every session, and refuses to start unless that reports your claude.ai login. It also stops any session whose init event reports other credentials. It makes no other network calls.
+
+Requirements: macOS 14+, Claude Code signed in with `claude auth login`, and the Swift toolchain (Xcode or just `xcode-select --install`).
+
+```sh
+app/scripts/bundle.sh            # builds app/build/CC Email.app
+app/scripts/bundle.sh --install  # …and copies it to ~/Applications
+app/scripts/dev.sh test          # unit tests
+app/scripts/dev.sh run           # run without bundling
+```
+
+- **Finding this folder:** the app looks for it by walking up from where the app lives. If you install the app elsewhere, choose the folder on first launch or in Settings.
+- **Bundle ID:** set `BUNDLE_ID` to use your own instead of `com.example.ccemail`.
+- **Where data goes:** conversation transcripts can include email content. They're saved in `~/Library/Application Support/CC Email/`, never in this repo.
+- **SDK selection:** with only the Command Line Tools installed, the scripts build against the newest SDK whose SwiftUI works without Xcode's macro plugin (`app/scripts/sdk.sh`).
+- **Stale builds:** if a build fails with "plugin for module … not found", delete `app/.build` and try again.
+- **UI work without using Claude Code:** `app/scripts/fake-claude.py` replays a scripted turn and makes no network calls. To use it, point the debug build at it with `defaults write CCEmail claudePath "$PWD/app/scripts/fake-claude.py"`, then use the `CCEMAIL_*` variables in `app/Sources/CCEmail/DevHooks.swift`. They can send a message automatically, resize the window, take snapshots and keep the test data separate.
 
 ## Customizing
 

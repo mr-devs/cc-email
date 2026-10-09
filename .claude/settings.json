@@ -18,7 +18,8 @@
       "Bash(remindctl show:*)",
       "Bash(remindctl search:*)",
       "Bash(remindctl info:*)",
-      "Bash(remindctl list)"
+      "Bash(remindctl list)",
+      "Bash(python3 -I .claude/skills/draft-email/to_html.py:*)"
     ],
     "ask": [
       "mcp__claude_ai_Gmail__send_message",

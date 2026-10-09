@@ -54,12 +54,12 @@ Apple Reminders is available through the `remindctl` CLI (macOS; `brew install s
 
 ```
 - Due Date: 10/25
-- Email: https://mail.google.com/mail/u/<Gmail address>/#all/<thread id>
+- Email: https://mail.google.com/mail/?authuser=<Gmail address>#all/<thread id>
 - Link: <paper, article or call-for-papers URL>
 ```
 
 - `Due Date` is the hard deadline, when there is one. The reminder's own due date (`--due`) is when to act, usually earlier.
-- `Email` links the thread the reminder came from. Include it whenever a reminder comes from an email. Use the Gmail address from `CLAUDE.local.md` in the link, not an account number like `u/0`, so it opens the right account when several are signed in. It's also how skills find a thread's existing reminder: `remindctl search mail.google.com` matches it.
+- `Email` links the thread the reminder came from. Include it whenever a reminder comes from an email. Use the Gmail address from `CLAUDE.local.md` as `?authuser=`, not an account number like `u/0`, so it opens the right account when several are signed in. Never put the address in the path (`/mail/u/<address>/`): Gmail answers that with a 404. It's also how skills find a thread's existing reminder: `remindctl search mail.google.com` matches it.
 - Never use `--url`: remindctl adds its own line about the URL to the notes, and clearing it later can bring old notes back. Pass notes as `"--notes=<text>"` (with `=`), because a value starting with `-` is otherwise read as an option.
 - After creating or editing a reminder, read it back with `remindctl info <id> --json` and check the title, due date and notes before reporting it done.
 
