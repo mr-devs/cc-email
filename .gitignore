@@ -18,7 +18,3 @@ drafts/*
 
 .DS_Store
 
-# Mac app build output
-app/.build/
-app/.swiftpm/
-app/build/

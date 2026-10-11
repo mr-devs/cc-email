@@ -78,8 +78,6 @@ If `$ARGUMENTS` names a focus (e.g. "work only"), limit steps 2–6 to it.
 
 ## The file: `inbox-summary.md`
 
-The CC Email Mac app (`app/`) parses this file, so keep the line shapes below stable: `#### <tag> · [<subject>](<link>)`, the bold `**From:**`/`**Summary:**`/`**Labels:**` fields, `- [ ] **Suggestion:**`, `- [ ] **Reminder:**`, `- **Notes:**`, the `✗` line and the Done lines.
-
 The file always shows exactly what is in the primary inboxes (and Promotions/Forums) as of its `Updated` line: every thread this run's searches returned, and nothing else. Each email is one self-contained block, and every piece of it has a label, so the user can see at a glance what's the subject, the summary, the labels, Claude's suggestion and any reminder. The user reads it in a Markdown preview and edits the source; VS Code's preview is read-only, so ticks are typed (`[ ]` → `[x]`), not clicked.
 
 ```markdown
