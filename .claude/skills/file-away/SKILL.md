@@ -30,16 +30,13 @@ Get the primary inboxes closer to empty by filing threads that are done, without
    - It's **addressed**: the user sent the last message, or the thread clearly needs no reply (notification, receipt, newsletter, FYI, automated alert, or a message where the user was only cc'd).
    - **Never** propose a thread from a Tier 1 sender in `contacts.md` unless the user has replied.
    - List non-fileable threads separately with the reason (e.g. "unread", "question from Jane awaiting your reply").
-3. **Choose a destination.** Use the label definitions in `CLAUDE.local.md`. Pick the single best label and give a short rationale tied to the definition. If nothing fits, say so and suggest either the closest label or a new one; don't create a new label without approval.
+3. **Choose a destination.** Use the label definitions in `CLAUDE.local.md`. Pick the single best label. When the choice isn't obvious, note a short rationale tied to the definition. If nothing fits, say so and suggest either the closest label or a new one; don't create a new label without approval.
 
 ## Output format
 
-```
-### Ready to file (N)
-| # | From | Subject | → Label | Why |
-|---|---|---|---|---|
-| 1 | Zoom | Your invoice | Work/Receipts | Receipt for a work purchase |
+Read `.claude/shared/approval-table.md` and use its table, grouped by destination label, with the threads numbered `1`, `2`, `3` in the Tag column. Filing adds no reminders, so leave out the Reminder column. Put the rationale for an unexpected destination in a short line under the table. After the table, list the threads you're not filing:
 
+```
 ### Not filing yet (M)
 - **Sender**: Subject — unread
 - ★ **Jane**: Grant draft — asks for your feedback; not answered
