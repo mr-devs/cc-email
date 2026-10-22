@@ -26,4 +26,5 @@ Lists that aren't projects, used when an email doesn't belong to a project; the 
 | List | Use for |
 |---|---|
 | `Reviews` | Peer-review deadlines |
+| `Reading` | Papers and articles to read; `/scholar-digest` adds a reminder here for each paper you mark interesting |
 | `Reminders` | **Default.** Anything that fits no project or topic list |

@@ -1,6 +1,6 @@
 ---
 name: scholar-digest
-description: Go through unread Google Scholar alert emails and pull out the papers most relevant to the user's research, with title, authors, a truncated blurb, link, and why each one matters. Then learn from the user's feedback by updating research-interests.md, and offer to mark the batch read. Use this whenever the user mentions Google Scholar alerts, their Scholar backlog, new papers, "anything good in my scholar emails", "what should I read", or wants to triage research alerts, even if they don't name the skill.
+description: Go through unread Google Scholar alert emails and pull out the papers most relevant to the user's research, with title, authors, a truncated blurb, link, and why each one matters. Then learn from the user's feedback by updating research-interests.md, offer an Apple Reminder to read each paper the user marks interesting, and offer to mark the batch read. Use this whenever the user mentions Google Scholar alerts, their Scholar backlog, new papers, "anything good in my scholar emails", "what should I read", or wants to triage research alerts, even if they don't name the skill.
 argument-hint: "[N threads, default 25 | 'last 7d' | 'after:YYYY/MM/DD']"
 ---
 
@@ -30,7 +30,7 @@ The base query is `label:<scholar-label-name> is:unread`. Search by name, since 
    - authors (truncate after 3 with "et al.")
    - venue or source if shown
    - the snippet text (first ~200 chars)
-   - the paper link
+   - the paper link: for a Scholar redirect, the URL-decoded target in its `url=` parameter; "none" if the entry has no link
    - the alert it came from: the subject line, e.g. "new citations to X", "new articles in Y"
    Ask it to return the full list of thread IDs it processed. One alert usually contains several papers.
 2. **Deduplicate** by normalized title. The same paper often appears in several alerts; keep one entry and note the alerts it appeared in, since that's a mild relevance signal.
@@ -65,6 +65,7 @@ The base query is `label:<scholar-label-name> is:unread`. Search by name, since 
 Feedback is how `research-interests.md` improves, so always ask. Use `AskUserQuestion`:
 
 - **Question 1** (multiSelect): "Which of these are actually interesting to you?" List the presented papers as options, with short titles as labels and the Why line as each description. Up to 4 options per question; split across questions if there are more.
+- **Reading reminders** (after Question 1, if any paper was picked): offer one reminder per picked paper, built as in "Reading reminders" below. Ask "Add these N reading reminders?" with an "Add all" option whose description lists every exact title with the due date and list, and a "Skip" option; the user can name a subset through Other. Picking "Add all" is the explicit yes for exactly those reminders (CLAUDE.md rule 7).
 - **Writing ideas** (only if step 5 suggested any; multiSelect): "Add these as reminders?" One option per idea, with the full reminder line (title, due date, list) as its description, asked as its own question, separate from "which are interesting". Selecting an idea is the explicit yes for that exact reminder (CLAUDE.md rule 7); create nothing that wasn't selected. Create each with the command and notes format in "Reminders" in `CLAUDE.md`, with the paper link as the `Link` line and the alert thread as the `Email` line, and report what was added. Every reminder needs a due date.
 - **Question 2:** ask why for one or two contested items, e.g. a High-scored paper the user didn't select ("not my area", "too technical", "already read", "wrong domain"), or invite a free-text note through Other.
 
@@ -74,6 +75,23 @@ Then edit `research-interests.md`:
 - If a pattern repeats (the same kind of reason 3 or more times), suggest adding it to **Signals**, and make that edit only if the user agrees.
 
 Briefly report what changed in the file.
+
+## Reading reminders
+
+A paper the user marks interesting gets a reminder to read it, so it isn't lost among read alerts. Skip this if `remindctl status` doesn't show access (see "Reminders" in `CLAUDE.md`).
+
+- **Title:** `Read "<paper title>"`, shortened to the title's main clause when it's long (e.g. `Read "Deep Residual Learning"` for "Deep Residual Learning for Image Recognition").
+- **List:** the list `projects.md` describes for papers or things to read or learn; failing that, the default list.
+- **Due date:** the coming Friday (today, if today is Friday).
+- **Notes:** a single `- Link: <url>` line with the paper's own URL, found in this order:
+  1. the link in the alert: the Scholar redirect's `url=` target from step 1;
+  2. if the alert has none, a web search for the title and first author, taking the paper's own page (DOI, publisher, arXiv or another preprint server, the author's PDF);
+  3. only if neither turns one up, an `- Email:` line linking the alert thread instead, in the format from "Reminders" in `CLAUDE.md`.
+
+  Never include both lines: a reading reminder has no `Email` line when it has a `Link`.
+- **No duplicates:** before offering a reminder, run `remindctl search "<URL without https://>"` (or the thread ID, for an `Email` fallback) and leave out papers that already have one.
+
+Create each with the command in "Reminders" in `CLAUDE.md`, read it back with `remindctl info <id> --json`, and report what was added.
 
 ## Mark the batch read
 
